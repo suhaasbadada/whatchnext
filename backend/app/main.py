@@ -1,14 +1,12 @@
 import random
+from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-
 from app.tmdb import get_trending_movies, get_random_movies, get_recommendations
 from app.queue_manager import init_queue, pop_next_movie, record_swipe, append_movies, user_queues
 
 app = FastAPI()
 
-# ---- CORS ----
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],          
@@ -17,38 +15,37 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-USER_ID = "demo_user"
+USER_ID = "suhaasbadada"
 
-# ---- JSON model for frontend POST body ----
 class SwipeRequest(BaseModel):
     movie_id: int
     action: str
 
-
-def ensure_queue():
-    """Initialize queue for user if empty"""
+def refill_queue_if_empty():
+    """Ensure the user's queue always has movies. Refill if empty."""
     if USER_ID not in user_queues or not user_queues[USER_ID]:
         try:
             trending = get_trending_movies(10)
             random_movies = get_random_movies(10)
             recs = get_recommendations(limit=10)
-
             initial_movies = trending + random_movies + recs
             random.shuffle(initial_movies)
-
             init_queue(USER_ID, initial_movies)
         except Exception as e:
             print("TMDB fetch failed:", e)
             raise HTTPException(status_code=503, detail="TMDB fetch failed, try again later")
 
-
 @app.get("/next_movie")
 def next_movie():
-    ensure_queue()
+    refill_queue_if_empty()
+
     movie = pop_next_movie(USER_ID)
 
     if not movie:
-        raise HTTPException(status_code=404, detail="No more movies in queue")
+        refill_queue_if_empty()
+        movie = pop_next_movie(USER_ID)
+        if not movie:
+            raise HTTPException(status_code=503, detail="Unable to fetch movies, try again later")
 
     return {"movie": movie}
 
@@ -71,5 +68,7 @@ def swipe(req: SwipeRequest):
             append_movies(USER_ID, recs)
         except Exception as e:
             print("Failed to fetch recommendations:", e)
+
+    refill_queue_if_empty()
 
     return {"status": "ok", "movie_id": movie_id, "action": action}

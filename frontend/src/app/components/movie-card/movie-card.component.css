@@ -1,16 +1,65 @@
 .movie-card {
-  width: 350px; /* wider card */
+  width: 350px;
   max-width: 90vw;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   cursor: pointer;
   position: relative;
-  transition: transform 0.3s ease;
+
+  transform-style: preserve-3d;
+  perspective: 1000px;
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  box-shadow:
+    0 0 20px rgba(255, 170, 0, 0.55),
+    0 0 40px rgba(255, 170, 0, 0.45),
+    0 0 70px rgba(255, 170, 0, 0.3);
 }
 
 .movie-card:hover {
-  transform: scale(1.03);
+  transform: scale(1.05) translateY(-6px);
+}
+
+.movie-card::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  background: linear-gradient(130deg, #ffb300, #ff6f00, #ffb300);
+  background-size: 250% 250%;
+  animation: borderGlow 3.5s linear infinite;
+  z-index: -1;
+}
+
+@keyframes borderGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.movie-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 120%;
+  height: 100%;
+  pointer-events: none;
+
+  background: linear-gradient(
+    75deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+
+  transform: skewX(-20deg);
+  transition: 0.6s ease-out;
+}
+
+.movie-card:hover::after {
+  left: 150%;
 }
 
 .poster {
@@ -31,13 +80,14 @@
 }
 
 .release-year {
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.55);
   padding: 2px 6px;
   border-radius: 4px;
 }
 
 .rating {
-  background: rgba(255,215,0,0.8);
+  background: rgba(255, 193, 7, 0.9);
+  color: black;
   padding: 2px 6px;
   border-radius: 4px;
 }
@@ -47,8 +97,24 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.75);
   color: white;
   padding: 12px;
   font-size: 0.9rem;
+}
+
+.genre-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.genre-badge {
+  background: rgba(255, 170, 0, 0.85); 
+  color: black;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
 }

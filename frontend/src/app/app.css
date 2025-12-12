@@ -1,0 +1,111 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #e5e5e5;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: rgba(18, 20, 25, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: 1000;
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.logo-icon {
+  color: #3b82f6;
+  font-size: 1.7rem;
+  font-weight: bold;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: #a8a8a8;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #3b82f6;
+  border-radius: 2px;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
+
+.profile-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  object-fit: cover;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.profile-icon:hover {
+  border-color: #3b82f6;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    padding: 1rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+}

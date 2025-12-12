@@ -1,16 +1,13 @@
 <div class="swipe-container">
-  <ng-container *ngIf="movie; else loadingTpl">
-    <app-movie-card 
-      [movie]="movie" 
-      [ngClass]="{
-        'swipe-left': swipeDirection === 'left',
-        'swipe-right': swipeDirection === 'right',
-        'swipe-up': swipeDirection === 'up'
-      }"
-    ></app-movie-card>
-  </ng-container>
+  <app-movie-card
+    *ngIf="movie"
+    [movie]="movie"
+    [ngClass]="{
+      'swipe-left': swipeDirection === 'left',
+      'swipe-right': swipeDirection === 'right',
+      'swipe-up': swipeDirection === 'up'
+    }"
+  ></app-movie-card>
 
-  <ng-template #loadingTpl>
-    <p>Loading movie...</p>
-  </ng-template>
+  <p *ngIf="!movie && !loading">Loading movie...</p>
 </div>

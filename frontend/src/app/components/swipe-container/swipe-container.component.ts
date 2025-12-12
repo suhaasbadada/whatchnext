@@ -23,6 +23,7 @@ export class SwipeContainerComponent {
 
   loadNextMovie() {
     this.loading = true;
+    this.swipeDirection = null; // reset animation class
     this.movieService.getNextMovie().subscribe({
       next: movie => {
         this.movie = movie;
@@ -38,17 +39,16 @@ export class SwipeContainerComponent {
   swipe(action: 'left' | 'right' | 'up') {
     if (!this.movie) return;
 
+    // Set swipe direction to trigger CSS animation
     this.swipeDirection = action;
 
-    // Reset animation after 300ms
+    // Wait for animation to finish before loading next movie
     setTimeout(() => {
-      this.swipeDirection = null;
-    }, 300);
-
-    this.movieService.swipe(this.movie.id, action).subscribe({
-      next: () => this.loadNextMovie(),
-      error: err => console.error(err),
-    });
+      this.movieService.swipe(this.movie!.id, action).subscribe({
+        next: () => this.loadNextMovie(),
+        error: err => console.error(err),
+      });
+    }, 300); // match your CSS animation duration
   }
 
   @HostListener('window:keydown', ['$event'])

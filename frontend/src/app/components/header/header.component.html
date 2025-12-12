@@ -1,13 +1,20 @@
-<header class="app-header">
-  <div class="logo">WatchNext</div>
+<header class="modern-header">
+  <div class="header-inner">
 
-  <nav class="nav-links">
-    <a routerLink="/" class="nav-link">Home</a>
-    <a routerLink="/watchlist" class="nav-link">Watchlist</a>
-    <a routerLink="/trending" class="nav-link">Trending</a>
-  </nav>
+    <div class="brand">
+      <span class="brand-icon">▶</span>
+      <span class="brand-text">WhatchNext</span>
+    </div>
 
-  <div class="profile">
-    <img src="assets/profile-icon.png" alt="Profile" class="profile-icon">
+    <nav class="nav">
+      <a routerLink="/" routerLinkActive="active" class="nav-item">Home</a>
+      <a routerLink="/watchlist" routerLinkActive="active" class="nav-item">Watchlist</a>
+      <a routerLink="/trending" routerLinkActive="active" class="nav-item">Trending</a>
+    </nav>
+
+    <div class="actions">
+      <img src="assets/profile-icon.png" class="avatar" alt="User">
+    </div>
+
   </div>
 </header>

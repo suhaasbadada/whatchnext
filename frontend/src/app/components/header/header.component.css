@@ -1,53 +1,113 @@
-.app-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 2rem;
-  background: linear-gradient(90deg, #1f1c2c, #928dab);
-  color: white;
-  font-weight: 500;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+.modern-header {
   position: sticky;
   top: 0;
-  z-index: 100;
+  width: 100%;
+  z-index: 999;
+
+  background: #222224;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   cursor: pointer;
 }
 
-.nav-links {
+.brand-icon {
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: #ffb238;
+}
+
+.brand-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #e7e7e7;
+}
+
+.nav {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
-.nav-link {
+.nav-item {
   text-decoration: none;
-  color: white;
+  color: #b7b7b7;
+  font-size: 1.05rem;
+  font-weight: 500;
   position: relative;
+  padding-bottom: 4px;
+  transition: color 0.25s ease;
 }
 
-.nav-link::after {
-  content: '';
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: -2px;
-  left: 0;
-  background-color: #ffcc00;
-  transition: width 0.3s ease;
+.nav-item:hover {
+  color: #ffd27a;
 }
 
-.nav-link:hover::after {
+.nav-item.active {
+  color: #ffb238;
+  font-weight: 600;
+}
+
+.nav-item.active::after {
   width: 100%;
 }
 
-.profile-icon {
-  width: 32px;
-  height: 32px;
+.nav-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background: #ffb238;
+  transition: width 0.25s ease;
+}
+
+.nav-item:hover::after {
+  width: 100%;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
+  object-fit: cover;
+
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  transition: 0.25s ease;
   cursor: pointer;
-  border: 2px solid white;
+}
+
+.avatar:hover {
+  border-color: #ffd27a;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .header-inner {
+    padding: 1rem;
+  }
+
+  .nav {
+    gap: 1rem;
+  }
+
+  .brand-text {
+    font-size: 1.3rem;
+  }
 }
