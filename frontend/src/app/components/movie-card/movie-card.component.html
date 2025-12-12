@@ -1,26 +1,43 @@
 <div class="movie-card-wrapper">
-  <div class="movie-card" (click)="toggleDescription($event)">
-
-    <img
-      class="poster"
-      [src]="'https://image.tmdb.org/t/p/w500' + movie?.poster_path"
-      [alt]="movie?.title"
-    />
-
-    <div class="top-info">
-      <span class="release-year">{{ movie?.release_date | date:'yyyy' }}</span>
-      <span class="rating">{{ movie?.vote_average }}</span>
+  <div class="movie-card">
+    <div class="poster-container">
+      <img
+        class="poster"
+        [src]="'https://image.tmdb.org/t/p/w500' + movie?.poster_path"
+        [alt]="movie?.title"
+      />
+      
+      <div class="top-info">
+        <span class="release-year">{{ movie?.release_date | date:'yyyy' }}</span>
+        <span class="rating">{{ movie?.vote_average | number:'1.1-1' }}</span>
+      </div>
     </div>
 
-    <div class="bottom-description" *ngIf="showDescription">
-      <h3>{{ movie?.title }}</h3>
+    <div class="side-content">
+      <div class="movie-header">
+        <h3 class="movie-title">{{ movie?.title }}</h3>
+        <!-- <p class="movie-subtitle">{{ movie?.tagline || 'No tagline available' }}</p> -->
+      </div>
 
       <div class="genre-badges">
         <span class="genre-badge" *ngFor="let g of genreNames">{{ g }}</span>
       </div>
 
-      <p>{{ movie?.overview }}</p>
-    </div>
+      <div class="movie-description">
+        <h4>Overview</h4>
+        <p class="overview-text">{{ movie?.overview || 'No overview available.' }}</p>
+      </div>
 
+      <div class="movie-meta">
+        <div class="meta-item">
+          <span class="meta-label">Release Date:</span>
+          <span class="meta-value">{{ movie?.release_date | date:'mediumDate' }}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Rating:</span>
+          <span class="meta-value">{{ movie?.vote_average | number:'1.1-1' }}/10</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
