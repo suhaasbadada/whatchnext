@@ -23,7 +23,7 @@ export class SwipeContainerComponent {
 
   loadNextMovie() {
     this.loading = true;
-    this.swipeDirection = null; // reset animation class
+    this.swipeDirection = null;
     this.movieService.getNextMovie().subscribe({
       next: movie => {
         this.movie = movie;
@@ -39,30 +39,37 @@ export class SwipeContainerComponent {
   swipe(action: 'left' | 'right' | 'up') {
     if (!this.movie) return;
 
-    // Set swipe direction to trigger CSS animation
     this.swipeDirection = action;
 
-    // Wait for animation to finish before loading next movie
     setTimeout(() => {
       this.movieService.swipe(this.movie!.id, action).subscribe({
         next: () => this.loadNextMovie(),
         error: err => console.error(err),
       });
-    }, 300); // match your CSS animation duration
+    }, 300);
   }
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if (!this.movie) return;
 
+    const target = event.target as HTMLElement | null;
+    const tag = target?.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (target as any)?.isContentEditable) {
+      return;
+    }
+
     switch (event.key) {
       case 'ArrowRight':
+        event.preventDefault();
         this.swipe('right');
         break;
       case 'ArrowLeft':
+        event.preventDefault();
         this.swipe('left');
         break;
       case 'ArrowUp':
+        event.preventDefault();
         this.swipe('up');
         break;
     }
