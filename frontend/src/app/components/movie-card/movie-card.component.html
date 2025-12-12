@@ -1,0 +1,17 @@
+<div class="movie-card" (click)="toggleDescription($event)">
+  <img
+    class="poster"
+    [src]="'https://image.tmdb.org/t/p/w500' + movie?.poster_path"
+    [alt]="movie?.title"
+  />
+
+  <div class="top-info">
+    <span class="release-year">{{ movie?.release_date | date:'yyyy' }}</span>
+    <span class="rating">{{ movie?.vote_average }}</span>
+  </div>
+
+  <div class="bottom-description" *ngIf="showDescription">
+    <h3>{{ movie?.title }}</h3>
+    <p>{{ movie?.overview }}</p>
+  </div>
+</div>
